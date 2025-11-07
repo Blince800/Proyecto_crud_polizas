@@ -178,7 +178,10 @@ function App() {
     fechaEscritura: '',
     nombreNotarioEscritura: '',
     numeroNotariaEscritura: '',
-    ciudadEscritura: ''
+    ciudadEscritura: '',
+    
+    // Acepto Términos
+    aceptoTerminos: false
   })
 
   const handleChange = (e) => {
@@ -191,10 +194,17 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Aquí puedes manejar el envío del formulario
-    console.log('Datos del formulario:', formData)
-    alert('Formulario enviado correctamente')
+  
+  // VALIDACIÓN DE TÉRMINOS
+  if (!formData.aceptoTerminos) {
+    alert('Debe aceptar los términos y condiciones para continuar')
+    return
   }
+  
+  // Envío del formulario
+  console.log('Datos del formulario:', formData)
+  alert('Formulario enviado correctamente')
+}
 
   return (
     <div className="app">
@@ -563,7 +573,6 @@ function App() {
               <input type="text" name="ciudadEscritura" placeholder="Ciudad" value={formData.ciudadEscritura} onChange={handleChange} required />
             </div>
           </section>
-
           <section>
             <div className='privacyPolicy'>
               <h3>Los datos personales recabados por ASEGURADORA, S.A. DE C.V. con domicilio en Calle del Lucero, nº 13, cerca de las ruinas del Cristal, 
@@ -572,8 +581,21 @@ function App() {
                 actualmente o potenciales servicios a ofrecer en el futuro. 
                 Por lo anterior, la firma del presente autoriza a ASEGURADORA, S.A. DE C.V. a realizar la consulta en buró de crédito, 
                 la validación de la credencial para votar y la consulta de antecedentes judiciales de las personas cuyos datos personales 
-                obran en este documento.</h3>
-              </div>
+                obran en este documento.
+              </h3>
+            </div>  
+            <div className="terminos-checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  name="aceptoTerminos"
+                  checked={formData.aceptoTerminos}
+                  onChange={handleChange}
+                  required
+                  />
+                  <h3>He leído y acepto los términos y condiciones</h3>
+               </label>
+            </div>
           </section>
         <button type="submit" className="btn-submit">Enviar Formulario</button>
       </form>
