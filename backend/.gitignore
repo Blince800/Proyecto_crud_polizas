@@ -1,0 +1,21 @@
+# Environment variables
+.env
+*.env
+
+# Django
+*.pyc
+__pycache__/
+*.sqlite3
+media/
+
+# Virtual environment
+venv_sistema_arrendamiento/
+
+# IDE
+.vscode/
+.idea/
+
+# Database (excepto migraciones)
+*.db
+!*/migrations/
+!*/migrations/*.py
