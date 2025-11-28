@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
+
 # Crear el router
 router = DefaultRouter()
 
@@ -16,7 +17,7 @@ router.register(r'personas', views.PersonasViewSet)
 router.register(r'documentos-legales', views.DocumentosLegalesViewSet)
 router.register(r'informacion-laboral', views.InformacionLaboralViewSet)
 router.register(r'info-conyugal', views.InfoConyugalViewSet)
-router.register(r'info-conyugal-arrendatario', views.InfoConyugalArrendatarioViewSet)
+#router.register(r'info-conyugal-arrendatario', views.InfoConyugalArrendatarioViewSet)
 
 # Sección 2: Inmuebles y Coberturas
 router.register(r'inmuebles', views.InmueblesViewSet)
@@ -40,6 +41,7 @@ router.register(r'usuarios-internos', views.UsuariosInternosViewSet)
 # URLs del API
 urlpatterns = [
     path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ]
 
 # URL para el API browser (opcional)

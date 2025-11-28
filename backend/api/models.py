@@ -86,7 +86,7 @@ class Inmuebles(models.Model):
     id_domicilio = models.ForeignKey(Domicilios, on_delete=models.CASCADE, db_column='id_domicilio')
     giro_negocio = models.CharField(max_length=100, null=True, blank=True)
     
-    # Campos de uso del inmueble
+    
     uso_habitacion = models.BooleanField(default=False)
     uso_oficina = models.BooleanField(default=False)
     uso_comercial = models.BooleanField(default=False)
@@ -95,21 +95,33 @@ class Inmuebles(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    
+    USOS_MAP = {
+        'uso_habitacion': 'Habitación',
+        'uso_oficina': 'Oficina',
+        'uso_comercial': 'Comercial',
+        'uso_bodega': 'Bodega'
+    }
+
     class Meta:
         db_table = 'inmuebles'
 
     def get_usos_display(self):
-        usos = []
-        if self.uso_habitacion:
-            usos.append("Habitación")
-        if self.uso_oficina:
-            usos.append("Oficina")
-        if self.uso_comercial:
-            usos.append("Comercial")
-        if self.uso_bodega:
-            usos.append("Bodega")
-        return ", ".join(usos)
+        #Obtener los usos como texto desde los campos booleanos
+        usos = [nombre for campo, nombre in self.USOS_MAP.items() if getattr(self, campo)]
+        return ", ".join(usos) if usos else "No especificado"
 
+    def get_usos_list(self):
+        """Obtener lista de usos activos (útil para APIs)"""
+        return [nombre for campo, nombre in self.USOS_MAP.items() if getattr(self, campo)]
+
+    def tiene_uso(self, uso):
+        """Verificar si tiene un uso específico"""
+        campo = next((campo for campo, nombre in self.USOS_MAP.items() if nombre == uso), None)
+        return getattr(self, campo) if campo else False
+
+    def __str__(self):
+        return f"Inmueble {self.id_inmueble} - {self.giro_negocio or 'Sin giro'}"
 class InmueblesUsos(models.Model):
     id_inmueble_uso = models.AutoField(primary_key=True)
     id_inmueble = models.ForeignKey(Inmuebles, on_delete=models.CASCADE, db_column='id_inmueble')
@@ -253,16 +265,6 @@ class InfoConyugal(models.Model):
     class Meta:
         db_table = 'info_conyugal'
 
-class InfoConyugalArrendatario(models.Model):
-    id_info_conyugal = models.AutoField(primary_key=True)
-    id_persona = models.ForeignKey(Personas, on_delete=models.CASCADE, related_name='info_conyugal_arrendatario', db_column='id_persona')
-    nombre_conyuge = models.CharField(max_length=200, null=True, blank=True)
-    regimen_conyugal = models.CharField(max_length=100, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'info_conyugal_arrendatario'
 
 class PersonasInmueble(models.Model):
     id_persona_inmueble = models.AutoField(primary_key=True)
