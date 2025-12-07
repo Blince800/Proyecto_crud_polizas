@@ -304,3 +304,47 @@ input[type="date"]:focus {
   height: 18px;
   cursor: pointer;
 }
+
+/* En App.css */
+.transition-section {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    max-height: 1000px;
+    opacity: 1;
+}
+
+.transition-section.hidden {
+    max-height: 0;
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.garantia-options {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.garantia-option {
+    flex: 1;
+    text-align: center;
+}
+
+.conditional-field {
+    background-color: #f0f8ff;
+    padding: 15px;
+    border-left: 4px solid #2196f3;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.conditional-field h3 {
+    color: #2196f3;
+    margin-top: 0;
+}
